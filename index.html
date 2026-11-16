@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Duitly — Manajemen Keuangan Cerdas & Praktis</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+  <!-- NAVBAR UTAMA -->
+  <header class="navbar">
+    <div class="container nav-container">
+      <div class="brand" onclick="switchTab('overview')" role="button" tabindex="0">
+        <img
+          src="logo-duitly.png"
+          alt="Logo Duitly"
+          class="brand-logo"
+          onerror="this.style.display='none'; document.getElementById('fallbackLogo').style.display='flex';"
+        />
+        <div id="fallbackLogo" class="fallback-logo" style="display: none;">
+          <span>D</span>
+        </div>
+        <div class="brand-text">
+          <span class="brand-name">Duitly</span>
+          <span class="brand-tagline">Kelola Uang Lebih Terarah</span>
+        </div>
+      </div>
+
+      <nav class="nav-tabs" aria-label="Navigasi Utama">
+        <button class="nav-btn active" data-tab="overview" onclick="switchTab('overview')">
+          Tampilan Awal
+        </button>
+        <button class="nav-btn" data-tab="home" onclick="switchTab('home')">
+          Tab HOME
+        </button>
+        <button class="nav-btn" data-tab="finance" onclick="switchTab('finance')">
+          Tab MANAGEMENT KEUANGAN
+        </button>
+        <button class="nav-btn" data-tab="feedback" onclick="switchTab('feedback')">
+          Tab MASUKAN PENGGUNA
+        </button>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container main-content">
+    <!-- =========================================================
+         TAMPILAN AWAL (RINGKASAN DARI KETIGA TAB SEBELUM MASUK KE TAB)
+    ========================================================== -->
+    <section id="overview" class="tab-section active">
+      <div class="hero-overview">
+        <div class="hero-overview-text">
+          <span class="badge-pill">Selamat Datang di Duitly</span>
+          <h1>Ringkasan Pintar Keuangan &amp; Aktivitas Anda</h1>
+          <p>
+            Pantau gambaran umum tentang Duitly, status tabungan &amp; arus kas Rupiah Anda,
+            serta ulasan pengguna sebelum menjelajahi detail di masing-masing tab.
+          </p>
+        </div>
+        <div class="hero-overview-logo-box">
+          <img
+            src="logo-duitly.png"
+            alt="Logo Duitly"
+            class="hero-logo-img"
+            onerror="this.style.display='none';"
+          />
+        </div>
+      </div>
+
+      <div class="overview-grid">
+        <!-- Ringkasan 1: Tab HOME -->
+        <article class="overview-card">
+          <div class="overview-card-header">
+            <span class="step-badge">Ringkasan Tab 1</span>
+            <h2>Tentang &amp; Manfaat Duitly</h2>
+          </div>
+          <p class="overview-desc">
+            <strong>Duitly</strong> adalah platform pencatatan dan perencanaan keuangan berbasis web
+            yang dirancang untuk membantu <strong>Siswa, Guru, Pekerja, hingga Masyarakat Biasa</strong>
+            mengatur pemasukan, pengeluaran, dan target tabungan secara transparan.
+          </p>
+          <ul class="overview-mini-list">
+            <li>✔ Pencatatan sumber pemasukan &amp; tujuan pengeluaran</li>
+            <li>✔ Grafik analisis harian hingga tahunan</li>
+            <li>✔ Bisa diakses di HP, iPad, dan Laptop</li>
+          </ul>
+          <button class="btn btn-outline full-width" onclick="switchTab('home')">
+            Buka Tab HOME →
+          </button>
+        </article>
+
+        <!-- Ringkasan 2: Tab MANAGEMENT KEUANGAN -->
+        <article class="overview-card highlight-card">
+          <div class="overview-card-header">
+            <span class="step-badge green">Ringkasan Tab 2</span>
+            <h2>Status Keuangan Saat Ini</h2>
+          </div>
+
+          <div class="mini-finance-stats">
+            <div class="mini-stat-item">
+              <span>Total Tabungan</span>
+              <strong id="ovTotalTabungan" class="text-navy">Rp 0</strong>
+            </div>
+            <div class="mini-stat-row">
+              <div class="mini-stat-item">
+                <span>Total Pemasukan</span>
+                <strong id="ovTotalPemasukan" class="text-green">Rp 0</strong>
+              </div>
+              <div class="mini-stat-item">
+                <span>Total Pengeluaran</span>
+                <strong id="ovTotalPengeluaran" class="text-red">Rp 0</strong>
+              </div>
+            </div>
+          </div>
+
+          <div class="mini-target-box">
+            <div class="target-label-row">
+              <span>Progres Target Tabungan</span>
+              <strong id="ovTargetPercent">0%</strong>
+            </div>
+            <div class="progress-bar-bg">
+              <div id="ovTargetBar" class="progress-bar-fill" style="width: 0%;"></div>
+            </div>
+            <small id="ovTargetInfo" class="muted-text">Target: Rp 0</small>
+          </div>
+
+          <button class="btn btn-primary full-width" onclick="switchTab('finance')">
+            Buka Tab MANAGEMENT KEUANGAN →
+          </button>
+        </article>
+
+        <!-- Ringkasan 3: Tab MASUKAN PENGGUNA -->
+        <article class="overview-card">
+          <div class="overview-card-header">
+            <span class="step-badge navy">Ringkasan Tab 3</span>
+            <h2>Suara &amp; Penilaian Pengguna</h2>
+          </div>
+
+          <div class="mini-rating-summary">
+            <div class="rating-big-score" id="ovAvgRating">0.0</div>
+            <div>
+              <div class="stars-display" id="ovAvgStars">☆☆☆☆☆</div>
+              <small id="ovTotalFeedback">Belum ada masukan</small>
+            </div>
+          </div>
+
+          <div id="ovLatestFeedback" class="mini-feedback-preview">
+            <p class="muted-text">Jadilah yang pertama memberikan kritik dan saran untuk Duitly!</p>
+          </div>
+
+          <button class="btn btn-navy full-width" onclick="switchTab('feedback')">
+            Buka Tab MASUKAN PENGGUNA →
+          </button>
+        </article>
+      </div>
+    </section>
+
+    <!-- =========================================================
+         TAB 1: TAB HOME
+    ========================================================== -->
+    <section id="home" class="tab-section">
+      <div class="section-header">
+        <span class="badge-pill">Tab HOME</span>
+        <h2>Mengenal Lebih Dekat Website Duitly</h2>
+        <p>Solusi digital untuk membangun kebiasaan finansial yang sehat, terukur, dan disiplin.</p>
+      </div>
+
+      <!-- 1. Tentang Duitly -->
+      <div class="content-card about-box">
+        <div class="about-grid">
+          <div>
+            <h3>Apa Itu Duitly?</h3>
+            <p>
+              <strong>Duitly</strong> adalah aplikasi website manajemen keuangan pribadi dan keluarga
+              yang memudahkan siapa saja dalam mencatat setiap rupiah yang masuk dan keluar.
+              Dilengkapi fitur pemantauan target tabungan otomatis, tabel riwayat terstruktur,
+              serta grafik visual (harian, mingguan, bulanan, dan tahunan), Duitly membantu Anda
+              mengambil keputusan keuangan berdasarkan data nyata, bukan sekadar perkiraan.
+            </p>
+            <div class="cta-group">
+              <button class="btn btn-primary" onclick="switchTab('finance')">
+                Mulai Catat Keuangan
+              </button>
+              <button class="btn btn-outline" onclick="switchTab('feedback')">
+                Kirim Masukan
+              </button>
+            </div>
+          </div>
+          <div class="about-highlight-panel">
+            <div class="info-pill-item">
+              <strong>100% Responsif</strong>
+              <span>Nyaman dibuka di HP, iPad/Tablet, maupun Laptop.</span>
+            </div>
+            <div class="info-pill-item">
+              <strong>Format Rupiah (Rp)</strong>
+              <span>Perhitungan otomatis akurat sesuai mata uang Indonesia.</span>
+            </div>
+            <div class="info-pill-item">
+              <strong>Target &amp; Apresiasi</strong>
+              <span>Dilengkapi ucapan selamat otomatis saat target tercapai.</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 2. Kenapa (Manfaat) Harus Ada Website Ini -->
+      <div class="subsection">
+        <h3 class="subsection-title">Kenapa (Manfaat) Harus Ada Website Duitly?</h3>
+        <div class="cards-grid-4">
+          <div class="feature-card">
+            <div class="icon-circle green">01</div>
+            <h4>Melacak Asal &amp; Tujuan Uang</h4>
+            <p>Mengetahui secara pasti uang pemasukan berasal dari mana dan uang pengeluaran dipakai untuk keperluan apa.</p>
+          </div>
+          <div class="feature-card">
+            <div class="icon-circle navy">02</div>
+            <h4>Mencegah Kebocoran Finansial</h4>
+            <p>Pengeluaran kecil yang sering tidak terasa kini tercatat rapi sehingga pemborosan bisa segera dikendalikan.</p>
+          </div>
+          <div class="feature-card">
+            <div class="icon-circle green">03</div>
+            <h4>Mewujudkan Target Tabungan</h4>
+            <p>Memiliki target nominal yang jelas disertai indikator progres membuat kegiatan menabung jauh lebih termotivasi.</p>
+          </div>
+          <div class="feature-card">
+            <div class="icon-circle navy">04</div>
+            <h4>Evaluasi Berkala dengan Grafik</h4>
+            <p>Perbandingan pemasukan dan pengeluaran tersedia dalam rentang harian, mingguan, bulanan, hingga tahunan.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- 3. Siapa Saja yang Cocok Menggunakannya -->
+      <div class="subsection">
+        <h3 class="subsection-title">Siapa Saja yang Cocok Menggunakan Duitly?</h3>
+        <div class="cards-grid-4">
+          <div class="persona-card">
+            <span class="persona-tag">Pelajar</span>
+            <h4>Siswa &amp; Mahasiswa</h4>
+            <p>Mengatur uang saku harian/bulanan, mencatat biaya buku/tugas, dan menabung untuk kebutuhan pendidikan.</p>
+          </div>
+          <div class="persona-card">
+            <span class="persona-tag">Pendidik</span>
+            <h4>Guru &amp; Tenaga Pengajar</h4>
+            <p>Mengelola gaji bulanan, tunjangan, dana darurat keluarga, serta perencanaan tabungan jangka panjang.</p>
+          </div>
+          <div class="persona-card">
+            <span class="persona-tag">Profesional</span>
+            <h4>Pekerja &amp; Karyawan</h4>
+            <p>Memantau arus kas gaji, biaya transportasi, tagihan rutin, dan menyisihkan penghasilan agar tidak habis di tengah bulan.</p>
+          </div>
+          <div class="persona-card">
+            <span class="persona-tag">Umum</span>
+            <h4>Masyarakat Biasa</h4>
+            <p>Cocok untuk ibu rumah tangga maupun pelaku usaha kecil dalam mencatat pemasukan dan belanja kebutuhan sehari-hari.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- =========================================================
+         TAB 2: TAB MANAGEMENT KEUANGAN
+    ========================================================== -->
+    <section id="finance" class="tab-section">
+      <div class="section-header">
+        <span class="badge-pill">Tab MANAGEMENT KEUANGAN</span>
+        <h2>Dasbor Pencatatan &amp; Analisis Keuangan</h2>
+        <p>Catat pemasukan, pengeluaran, atur target tabungan, dan pantau grafik perkembangan Anda.</p>
+      </div>
+
+      <!-- BANNER UCAPAN SELAMAT JIKA TARGET PENABUNGAN TERCAPAI -->
+      <div id="congratsBanner" class="congrats-banner" style="display: none;">
+        <div class="congrats-icon">🎉</div>
+        <div class="congrats-content">
+          <h3>Selamat! Target Penabungan Anda Sudah Tercapai!</h3>
+          <p id="congratsText">
+            Luar biasa! Total tabungan Anda telah memenuhi bahkan melampaui target yang ditetapkan. Pertahankan kedisiplinan finansial Anda bersama Duitly!
+          </p>
+        </div>
+      </div>
+
+      <!-- KARTU RINGKASAN ANGKA (TOTAL TABUNGAN, PEMASUKAN, PENGELUARAN, TARGET) -->
+      <div class="finance-stats-grid">
+        <div class="stat-card navy-border">
+          <span class="stat-label">Total Tabungan (Saldo)</span>
+          <h3 id="totalTabungan" class="stat-value text-navy">Rp 0</h3>
+          <small class="stat-sub">Total Pemasukan − Total Pengeluaran</small>
+        </div>
+
+        <div class="stat-card green-border">
+          <span class="stat-label">Total Pemasukan</span>
+          <h3 id="totalPemasukan" class="stat-value text-green">Rp 0</h3>
+          <small class="stat-sub">Akumulasi seluruh dana masuk</small>
+        </div>
+
+        <div class="stat-card red-border">
+          <span class="stat-label">Total Pengeluaran</span>
+          <h3 id="totalPengeluaran" class="stat-value text-red">Rp 0</h3>
+          <small class="stat-sub">Akumulasi seluruh dana keluar</small>
+        </div>
+
+        <div class="stat-card target-card">
+          <div class="target-header-inline">
+            <span class="stat-label">Target Penabungan</span>
+            <span id="targetPercentBadge" class="percent-badge">0%</span>
+          </div>
+          <h3 id="displayTarget" class="stat-value text-green">Rp 0</h3>
+          <div class="progress-bar-bg">
+            <div id="targetProgressBar" class="progress-bar-fill" style="width: 0%;"></div>
+          </div>
+          <small id="targetStatusText" class="stat-sub">Atur target tabungan Anda di bawah</small>
+        </div>
+      </div>
+
+      <!-- FORM TARGET TABUNGAN & FORM TRANSAKSI -->
+      <div class="finance-forms-grid">
+        <!-- Form Tambah Transaksi -->
+        <div class="content-card">
+          <h3>Catat Pemasukan / Pengeluaran</h3>
+          <form id="transactionForm" class="styled-form">
+            <div class="form-group">
+              <label for="txType">Jenis Transaksi</label>
+              <div class="type-toggle-group">
+                <label class="type-radio active-income" id="labelIncome">
+                  <input type="radio" name="txType" value="pemasukan" checked onchange="toggleTxFields()" />
+                  <span>+ Pemasukan</span>
+                </label>
+                <label class="type-radio" id="labelExpense">
+                  <input type="radio" name="txType" value="pengeluaran" onchange="toggleTxFields()" />
+                  <span>− Pengeluaran</span>
+                </label>
+              </div>
+            </div>
+
+            <!-- Bagian Dinamis: Pemasukan (Duitnya dari mana?) vs Pengeluaran (Duitnya dibuat apa?) -->
+            <div class="form-group">
+              <label id="sourcePurposeLabel" for="txCategory">Duitnya dari mana? (Sumber Pemasukan)</label>
+              <select id="txCategory" required>
+                <!-- Diisi otomatis oleh JavaScript sesuai jenis transaksi -->
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label id="detailLabel" for="txNote">Keterangan Tambahan Sumber Pemasukan</label>
+              <input
+                type="text"
+                id="txNote"
+                placeholder="Contoh: Gaji bulanan / Uang saku dari orang tua"
+                required
+              />
+            </div>
+
+            <div class="form-row-2">
+              <div class="form-group">
+                <label id="amountLabel" for="txAmount">Total Pemasukan (dalam Rupiah)</label>
+                <input
+                  type="number"
+                  id="txAmount"
+                  min="1"
+                  step="any"
+                  placeholder="Contoh: 500000"
+                  required
+                />
+              </div>
+              <div class="form-group">
+                <label for="txDate">Tanggal Transaksi</label>
+                <input type="date" id="txDate" required />
+              </div>
+            </div>
+
+            <button type="submit" class="btn btn-primary full-width">
+              Simpan Transaksi
+            </button>
+          </form>
+        </div>
+
+        <!-- Panel Target Penabungan + Grafik -->
+        <div class="right-finance-column">
+          <!-- Form Atur Target Penabungan -->
+          <div class="content-card target-setter-card">
+            <h3>Atur Target Penabungan (Rp)</h3>
+            <form id="targetForm" class="target-inline-form">
+              <input
+                type="number"
+                id="targetInput"
+                min="1000"
+                step="any"
+                placeholder="Masukkan target tabungan, misal: 5000000"
+                required
+              />
+              <button type="submit" class="btn btn-navy">Simpan Target</button>
+            </form>
+          </div>
+
+          <!-- Grafik Pemasukan - Pengeluaran (Harian, Mingguan, Bulanan, Tahunan) -->
+          <div class="content-card chart-card">
+            <div class="chart-header">
+              <div>
+                <h3>Grafik Pemasukan &amp; Pengeluaran</h3>
+                <small class="muted-text">Pantau perbandingan arus kas berdasarkan periode</small>
+              </div>
+              <div class="period-buttons" role="group" aria-label="Periode Grafik">
+                <button type="button" class="period-btn active" data-period="harian" onclick="changeChartPeriod('harian')">Harian</button>
+                <button type="button" class="period-btn" data-period="mingguan" onclick="changeChartPeriod('mingguan')">Mingguan</button>
+                <button type="button" class="period-btn" data-period="bulanan" onclick="changeChartPeriod('bulanan')">Bulanan</button>
+                <button type="button" class="period-btn" data-period="tahunan" onclick="changeChartPeriod('tahunan')">Tahunan</button>
+              </div>
+            </div>
+            <div class="chart-container">
+              <canvas id="financeChart"></canvas>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- TABEL PEMASUKAN DAN PENGELUARAN -->
+      <div class="content-card table-card">
+        <div class="table-header-bar">
+          <div>
+            <h3>Tabel Pemasukan dan Pengeluaran</h3>
+            <small class="muted-text">Daftar riwayat lengkap asal pemasukan dan keperluan pengeluaran Anda</small>
+          </div>
+          <div class="table-actions">
+            <select id="tableFilter" onchange="renderTransactions()" aria-label="Filter Jenis Transaksi">
+              <option value="semua">Semua Transaksi</option>
+              <option value="pemasukan">Hanya Pemasukan</option>
+              <option value="pengeluaran">Hanya Pengeluaran</option>
+            </select>
+            <button type="button" class="btn btn-outline btn-sm" onclick="exportCSV()">Export CSV</button>
+            <button type="button" class="btn btn-danger-outline btn-sm" onclick="clearAllTransactions()">Reset Data</button>
+          </div>
+        </div>
+
+        <div class="table-responsive">
+          <table class="finance-table">
+            <thead>
+              <tr>
+                <th>Tanggal</th>
+                <th>Jenis</th>
+                <th>Dari Mana / Dibuat Apa</th>
+                <th>Keterangan</th>
+                <th class="text-right">Jumlah (Rupiah)</th>
+                <th class="text-center">Aksi</th>
+              </tr>
+            </thead>
+            <tbody id="transactionTableBody">
+              <!-- Diisi otomatis oleh JavaScript -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- =========================================================
+         TAB 3: TAB MASUKAN DARI PENGGUNA
+    ========================================================== -->
+    <section id="feedback" class="tab-section">
+      <div class="section-header">
+        <span class="badge-pill">Tab MASUKAN DARI PENGGUNA</span>
+        <h2>Kritik, Saran &amp; Tingkat Kesukaan Pengguna</h2>
+        <p>Masukan Anda sangat berarti untuk pengembangan Duitly agar semakin bermanfaat.</p>
+      </div>
+
+      <div class="feedback-layout">
+        <!-- Formulir Masukan -->
+        <div class="content-card">
+          <h3>Kirim Masukan Anda</h3>
+          <form id="feedbackForm" class="styled-form">
+            <div class="form-group">
+              <label for="fbName">Nama Lengkap / Panggilan</label>
+              <input
+                type="text"
+                id="fbName"
+                placeholder="Masukkan nama Anda..."
+                required
+              />
+            </div>
+
+            <div class="form-group">
+              <label for="fbRole">Jabatan / Status</label>
+              <select id="fbRole" required>
+                <option value="">-- Pilih Jabatan Anda --</option>
+                <option value="Siswa">Siswa</option>
+                <option value="Guru">Guru</option>
+                <option value="Pekerja">Pekerja</option>
+                <option value="Masyarakat Biasa">Masyarakat Biasa</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label>Tingkat Kesukaan (1 sampai 5)</label>
+              <div class="star-rating-picker" id="starPicker">
+                <button type="button" class="star-btn" data-val="1" onclick="setRating(1)">★</button>
+                <button type="button" class="star-btn" data-val="2" onclick="setRating(2)">★</button>
+                <button type="button" class="star-btn" data-val="3" onclick="setRating(3)">★</button>
+                <button type="button" class="star-btn" data-val="4" onclick="setRating(4)">★</button>
+                <button type="button" class="star-btn" data-val="5" onclick="setRating(5)">★</button>
+              </div>
+              <input type="hidden" id="fbRating" value="5" required />
+              <small id="ratingLabelText" class="rating-hint">5 / 5 — Sangat Suka</small>
+            </div>
+
+            <div class="form-group">
+              <label for="fbCritique">Kritik untuk Website Ini</label>
+              <textarea
+                id="fbCritique"
+                rows="3"
+                placeholder="Tuliskan hal yang menurut Anda masih perlu diperbaiki..."
+                required
+              ></textarea>
+            </div>
+
+            <div class="form-group">
+              <label for="fbSuggestion">Saran untuk Website Ini</label>
+              <textarea
+                id="fbSuggestion"
+                rows="3"
+                placeholder="Tuliskan ide atau fitur yang Anda harapkan ada di Duitly..."
+                required
+              ></textarea>
+            </div>
+
+            <button type="submit" class="btn btn-primary full-width">
+              Kirim Masukan
+            </button>
+          </form>
+        </div>
+
+        <!-- Daftar Masukan yang Langsung Muncul Setelah Dikirim -->
+        <div class="feedback-wall-wrapper">
+          <div class="feedback-wall-header">
+            <h3>Daftar Masukan Pengguna (<span id="feedbackCount">0</span>)</h3>
+            <div class="avg-pill">
+              Rata-rata: <strong id="avgRatingText">0.0</strong> / 5 ★
+            </div>
+          </div>
+
+          <div id="feedbackList" class="feedback-cards-list">
+            <!-- Kartu masukan pengguna muncul otomatis di sini saat tombol Kirim diklik -->
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container footer-content">
+      <p><strong>Duitly</strong> — Website Manajemen Keuangan Pribadi &amp; Keluarga.</p>
+      <small>Dapat diakses melalui Laptop, iPad/Tablet, maupun Handphone.</small>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
